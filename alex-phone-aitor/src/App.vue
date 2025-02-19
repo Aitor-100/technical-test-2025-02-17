@@ -1,36 +1,47 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import IconCart from './components/icons/IconCart.vue';
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+    <nav>
+        <RouterLink to="/" class="logo"> <img alt="AlexPhone logo" src="@/assets/logo.svg" /></RouterLink>
+        <RouterLink to="/cart"><IconCart class="icon"/></RouterLink>
       </nav>
-    </div>
   </header>
 
   <RouterView />
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+header{
+  background-color: var(--color-heading);
+}
+header nav{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem 4rem;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.icon{
+  height: 40px;
+  width: 40px;
+  color: var(--color-icon);
 }
 
+a{
+  transition: transform 0.3s ease-in-out;
+}
+
+a:hover{
+  transform: scale(1.2)
+}
+/*
 nav {
   width: 100%;
   font-size: 12px;
@@ -54,8 +65,8 @@ nav a {
 
 nav a:first-of-type {
   border: 0;
-}
-
+}*/
+/*
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -81,5 +92,5 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
-}
+}*/
 </style>
