@@ -30,7 +30,7 @@ defineProps(["product"]);
 }
 .card img {
   width: 100%;
-  height: 50%; /* Ajusta la altura según necesites */
+  height: 50%; 
   object-fit: contain;
   border-radius: 8px;
 }

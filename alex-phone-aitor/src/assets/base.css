@@ -34,7 +34,9 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
-  --color-icon: var(--vt-c-white)
+  --color-icon: var(--vt-c-white);
+  --color-principal: rgba(45,99,224,255);
+  --color-secundario: rgb(44,76,150);
 }
 /*
 @media (prefers-color-scheme: dark) {
