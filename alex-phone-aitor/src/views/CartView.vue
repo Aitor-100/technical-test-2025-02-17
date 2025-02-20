@@ -1,29 +1,29 @@
 <script setup>
-import { useCartStore } from '@/stores/cart';
-import { useRouter } from 'vue-router';
+import { useCartStore } from '@/stores/cart'
+import { useRouter } from 'vue-router'
 
-const cartStore = useCartStore();
-const router = useRouter();
+const cartStore = useCartStore()
+const router = useRouter()
 
 const checkout = async () => {
   try {
-    const response = await fetch("https://test.alexphone.com/api/v1/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ products: cartStore.cart })
-    });
+    const response = await fetch('https://test.alexphone.com/api/v1/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ products: cartStore.cart }),
+    })
 
     if (response.ok) {
-      alert("Pedido realizado con éxito");
-      cartStore.clearCart();
-      router.push("/");
+      alert('Pedido realizado con éxito')
+      cartStore.clearCart()
+      router.push('/')
     } else {
-      alert("Hubo un problema con la compra");
+      alert('Hubo un problema con la compra')
     }
   } catch (error) {
-    console.error("Error en la compra:", error);
+    console.error('Error en la compra:', error)
   }
-};
+}
 </script>
 
 <template>
@@ -39,16 +39,17 @@ const checkout = async () => {
         <li v-for="(item, index) in cartStore.cart" :key="index">
           <img :src="item.image" :alt="item.name" />
           <div>
-            <p><strong>{{ item.name }}</strong></p>
+            <p>
+              <strong>{{ item.name }}</strong>
+            </p>
             <p>${{ item.price }}</p>
-            <div>
+            <div class="count">
               <button @click="cartStore.decreaseQuantity(index)">-</button>
               <p>{{ item.count }}</p>
               <button @click="cartStore.increaseQuantity(index)">+</button>
             </div>
-            
           </div>
-          <button @click="cartStore.removeFromCart(index)">x</button>
+          <button class="remove" @click="cartStore.removeFromCart(index)">x</button>
         </li>
       </ul>
 
@@ -85,14 +86,42 @@ li img {
 }
 
 button {
-  background-color: red;
+  background-color: var(--color-principal);
   color: white;
   border: none;
   padding: 0.5rem;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 button:hover {
-  background-color: darkred;
+  background-color: var(--color-secundario);
+}
+.remove {
+  margin: 0 0 auto auto;
+  height: 30px;
+  width: 30px;
+}
+.count {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+
+.count button {
+  height: 24px;
+  width: 24px;
+  font-size: large;
+  padding: 0;
+}
+
+.count button:first-child {
+  margin: 0 1rem 0 0;
+}
+
+.count button:last-child {
+  margin: 0 0 0 1rem;
 }
 </style>

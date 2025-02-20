@@ -27,6 +27,10 @@ export const useCartStore = defineStore('cart', {
     decreaseQuantity(index){
         this.cart[index].count -= 1;
         localStorage.setItem('cart', JSON.stringify(this.cart))
+        
+        if(this.cart[index].count == 0){
+            this.removeFromCart(index)
+        }
     },
     removeFromCart(index) {
       this.cart.splice(index, 1)
