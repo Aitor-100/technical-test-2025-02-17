@@ -1,11 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useCartStore } from "@/stores/cart";
 
 import IconCart from "@/components/icons/IconCart.vue";
 
 const route = useRoute();
 const product = ref(null);
+const cartStore = useCartStore();
+
 
 //Peticion a la APi para los detalles del iphone
 onMounted(async () => {
@@ -17,10 +20,7 @@ onMounted(async () => {
   }
 });
 
-//Funcion añadir al carrito
-const addToCart = () => {
-  console.log(`Añadido al carrito: ${product.value.name}`);
-};
+
 </script>
 
 <template>
@@ -40,7 +40,7 @@ const addToCart = () => {
         <p><strong>Color:</strong> {{ product.color }}</p>
   
         <!-- Botón para añadir al carrito -->
-        <button @click="addToCart">Añadir al carrito <IconCart class="icon"/></button>
+        <button @click="cartStore.addToCart(product)">Añadir al carrito <IconCart class="icon"/></button>
       </div>
     </main>
   </template>
