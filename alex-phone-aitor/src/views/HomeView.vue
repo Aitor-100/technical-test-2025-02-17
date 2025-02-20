@@ -12,6 +12,7 @@ const filters = ref({
   minPrice: route.query.minPrice || "",
   maxPrice: route.query.maxPrice || "",
   grade: route.query.grade || "",
+  color: route.query.color || "",
   sort: route.query.sort || "price-asc", 
 });
 
@@ -50,6 +51,11 @@ const filteredProducts = computed(() => {
   // Filtrar por grado
   if (filters.value.grade) {
     result = result.filter((p) => p.grade === filters.value.grade);
+  }
+
+  // Filtrar por color
+  if (filters.value.color) {
+    result = result.filter((p) => p.color === filters.value.color);
   }
 
   // Ordenar
@@ -110,6 +116,15 @@ const clearFilters = () => {
         <option value="excellent">Excellent</option>
         <option value="very_good">Very Good</option>
         <option value="good">Good</option>
+
+      </select>
+
+      <select v-model="filters.color">
+        <option value="">Todos los colores</option>
+        <option value="red">Rojo</option>
+        <option value="black">Negro</option>
+        <option value="white">Blanco</option>
+        <option value="pink">Rosa</option>
 
       </select>
 

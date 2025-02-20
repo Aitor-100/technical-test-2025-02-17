@@ -1,10 +1,18 @@
 <script setup>
-defineProps(["product"]);
+import { useRouter } from "vue-router";
+
+const props = defineProps(["product"]);
+const router = useRouter();
+
+const goToPhoneDetail = () => {
+  router.push(`/phone/${props.product.sku}`);
+};
+
 </script>
 
 <template>
-  <div class="card">
-    <img :src="product.image" :alt="product.name" />
+  <div class="card" @click="goToPhoneDetail">
+    <img :src="product.image" :alt="product.name" draggable="false"/>
     <div class="phone-detail">
       <h2>{{ product.name }}</h2>
       <p class="detail"><strong>Grade:</strong> {{ product.grade }}</p>
