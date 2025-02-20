@@ -7,7 +7,7 @@ import IconCart from './components/icons/IconCart.vue';
   <header>
     <nav>
         <RouterLink to="/" class="logo"> <img alt="AlexPhone logo" src="@/assets/logo.svg" /></RouterLink>
-        <RouterLink to="/cart"><IconCart class="icon"/></RouterLink>
+        <RouterLink to="/cart"><IconCart class="icon" :showCount="true"/></RouterLink>
       </nav>
   </header>
 
