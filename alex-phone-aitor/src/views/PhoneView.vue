@@ -7,6 +7,7 @@ import IconCart from "@/components/icons/IconCart.vue";
 const route = useRoute();
 const product = ref(null);
 
+//Peticion a la APi para los detalles del iphone
 onMounted(async () => {
   try {
     const response = await fetch(`https://test.alexphone.com/api/v1/sku/${route.params.sku}`);
@@ -15,6 +16,11 @@ onMounted(async () => {
     console.error("Error fetching product:", error);
   }
 });
+
+//Funcion añadir al carrito
+const addToCart = () => {
+  console.log(`Añadido al carrito: ${product.value.name}`);
+};
 </script>
 
 <template>
@@ -72,7 +78,7 @@ onMounted(async () => {
     padding: 0.8rem;
     border: none;
     background-color: var(--color-principal);
-    color: white;
+    color: var(--color-icon);
     font-size: 1rem;
     border-radius: 5px;
     cursor: pointer;
