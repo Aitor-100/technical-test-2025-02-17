@@ -1,29 +1,8 @@
 <script setup>
 import { useCartStore } from '@/stores/cart'
-import { useRouter } from 'vue-router'
 
 const cartStore = useCartStore()
-const router = useRouter()
 
-const checkout = async () => {
-  try {
-    const response = await fetch('https://test.alexphone.com/api/v1/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ products: cartStore.cart }),
-    })
-
-    if (response.ok) {
-      alert('Pedido realizado con éxito')
-      cartStore.clearCart()
-      router.push('/')
-    } else {
-      alert('Hubo un problema con la compra')
-    }
-  } catch (error) {
-    console.error('Error en la compra:', error)
-  }
-}
 </script>
 
 <template>
@@ -54,7 +33,7 @@ const checkout = async () => {
       </ul>
 
       <h3>Total: ${{ cartStore.totalPrice }}</h3>
-      <button @click="checkout">Realizar Pedido</button>
+      <button  @click="cartStore.confirmOrder">Realizar Pedido</button>
     </div>
   </main>
 </template>

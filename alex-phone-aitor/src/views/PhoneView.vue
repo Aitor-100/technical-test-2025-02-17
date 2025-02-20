@@ -92,8 +92,7 @@ onMounted(async () => {
   }
 
   .icon{
-    height: 30px;
-    width: 30px;
+    transform: scale(0.7);
     color: var(--color-icon);
   }
   
