@@ -1,6 +1,9 @@
 <a id="readme-top"></a>
 
-
+Para acceder al poryceto use 
+```sh
+cd alex-phone-aitor
+```
 
 <!-- PROJECT LOGO -->
 <br />

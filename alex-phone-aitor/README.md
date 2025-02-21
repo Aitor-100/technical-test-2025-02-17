@@ -1,14 +1,17 @@
 # alex-phone-aitor
 
 This template should help get you started developing with Vue 3 in Vite.
+https://alex-phone-aitor.netlify.app
+
+# Config
+```sh
+npm install
+npm run build
+```
 
 ## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+[VSCode](https://code.visualstudio.com/) 
 
 ## Project Setup
 
