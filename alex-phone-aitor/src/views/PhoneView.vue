@@ -99,4 +99,15 @@ onMounted(async () => {
   button:hover {
     background-color: var(--color-secundario);
   }
+
+  @media (max-width: 700px) {
+    .product-container{
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .product-image img{
+      width: 180px;
+    }
+  }
   </style>

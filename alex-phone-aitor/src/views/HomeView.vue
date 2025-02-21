@@ -1,141 +1,141 @@
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import PhoneCard from "@/components/PhoneCard.vue";
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import PhoneCard from '@/components/PhoneCard.vue'
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
-const products = ref([]);
+const products = ref([])
 const filters = ref({
-  search: route.query.search || "",
-  minPrice: route.query.minPrice || "",
-  maxPrice: route.query.maxPrice || "",
-  grade: route.query.grade || "",
-  color: route.query.color || "",
-  sort: route.query.sort || "price-asc", 
-});
+  search: route.query.search || '',
+  minPrice: route.query.minPrice || '',
+  maxPrice: route.query.maxPrice || '',
+  grade: route.query.grade || '',
+  color: route.query.color || '',
+  sort: route.query.sort || 'price-asc',
+})
 
-//Peticion API
+const isMobile = ref(window.innerWidth <= 700);
+
+var isFilterVisible = ref(false);
+
+  //Peticion API
 onMounted(async () => {
   try {
-    const response = await fetch("https://test.alexphone.com/api/v1/skus");
-    const data = await response.json();
-    products.value = data;
+    const response = await fetch('https://test.alexphone.com/api/v1/skus')
+    const data = await response.json()
+    products.value = data
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error('Error fetching products:', error)
   }
-});
+})
 
 // Filtros
 const filteredProducts = computed(() => {
-  let result = [...products.value];
+  let result = [...products.value]
 
   // Filtrar por búsqueda
   if (filters.value.search) {
-    result = result.filter((p) =>
-      p.name.toLowerCase().includes(filters.value.search.toLowerCase())
-    );
+    result = result.filter((p) => p.name.toLowerCase().includes(filters.value.search.toLowerCase()))
   }
 
   // Filtrar por precio mínimo
   if (filters.value.minPrice) {
-    result = result.filter((p) => p.price >= parseFloat(filters.value.minPrice));
+    result = result.filter((p) => p.price >= parseFloat(filters.value.minPrice))
   }
 
   // Filtrar por precio máximo
   if (filters.value.maxPrice) {
-    result = result.filter((p) => p.price <= parseFloat(filters.value.maxPrice));
+    result = result.filter((p) => p.price <= parseFloat(filters.value.maxPrice))
   }
 
   // Filtrar por grado
   if (filters.value.grade) {
-    result = result.filter((p) => p.grade === filters.value.grade);
+    result = result.filter((p) => p.grade === filters.value.grade)
   }
 
   // Filtrar por color
   if (filters.value.color) {
-    result = result.filter((p) => p.color === filters.value.color);
+    result = result.filter((p) => p.color === filters.value.color)
   }
 
   // Ordenar
-  if (filters.value.sort === "price-asc") {
-    result.sort((a, b) => a.price - b.price);
-  } else if (filters.value.sort === "price-desc") {
-    result.sort((a, b) => b.price - a.price);
-  } else if (filters.value.sort === "name-asc") {
-    result.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (filters.value.sort === "name-desc") {
-    result.sort((a, b) => b.name.localeCompare(a.name));
+  if (filters.value.sort === 'price-asc') {
+    result.sort((a, b) => a.price - b.price)
+  } else if (filters.value.sort === 'price-desc') {
+    result.sort((a, b) => b.price - a.price)
+  } else if (filters.value.sort === 'name-asc') {
+    result.sort((a, b) => a.name.localeCompare(b.name))
+  } else if (filters.value.sort === 'name-desc') {
+    result.sort((a, b) => b.name.localeCompare(a.name))
   }
 
-  return result;
-});
+  return result
+})
 
 // Sincronizar filtros con la URL
-watch(filters, (newFilters) => {
-  router.replace({ query: { ...newFilters } });
-}, { deep: true });
-
+watch(
+  filters,
+  (newFilters) => {
+    router.replace({ query: { ...newFilters } })
+  },
+  { deep: true },
+)
 
 // Función para limpiar filtros
 const clearFilters = () => {
   filters.value = {
-    search: "",
-    minPrice: "",
-    maxPrice: "",
-    grade: "",
-    sort: "price-asc",
-  };
-  router.replace({ query: {} }); // Limpiar los parámetros de la URL
-};
+    search: '',
+    minPrice: '',
+    maxPrice: '',
+    grade: '',
+    sort: 'price-asc',
+  }
+  router.replace({ query: {} })
+}
+
+// Función para mostrar filtros en movil
+const showFilters = () => {
+  isFilterVisible.value = !isFilterVisible.value;
+}
 </script>
 
 <template>
   <main>
     <div class="search">
-      <input
-        type="text"
-        v-model="filters.search"
-        placeholder="Buscar por nombre..."
-      />
+      <input type="text" v-model="filters.search" placeholder="Buscar por nombre..." />
 
-      <input
-        type="number"
-        v-model="filters.minPrice"
-        placeholder="Precio mínimo"
-      />
-      <input
-        type="number"
-        v-model="filters.maxPrice"
-        placeholder="Precio máximo"
-      />
+      <button v-if="isMobile" class="clear-btn" @click="showFilters">Más Filtros</button>
 
-      <select v-model="filters.grade">
-        <option value="">Todos los grados</option>
-        <option value="excellent">Excellent</option>
-        <option value="very_good">Very Good</option>
-        <option value="good">Good</option>
+      <div v-if="!isMobile || isFilterVisible" >
+        <input type="number" v-model="filters.minPrice" placeholder="Precio mínimo" />
+        <input type="number" v-model="filters.maxPrice" placeholder="Precio máximo" />
 
-      </select>
+        <select v-model="filters.grade">
+          <option value="">Todos los grados</option>
+          <option value="excellent">Excellent</option>
+          <option value="very_good">Very Good</option>
+          <option value="good">Good</option>
+        </select>
 
-      <select v-model="filters.color">
-        <option value="">Todos los colores</option>
-        <option value="red">Rojo</option>
-        <option value="black">Negro</option>
-        <option value="white">Blanco</option>
-        <option value="pink">Rosa</option>
+        <select v-model="filters.color">
+          <option value="">Todos los colores</option>
+          <option value="red">Rojo</option>
+          <option value="black">Negro</option>
+          <option value="white">Blanco</option>
+          <option value="pink">Rosa</option>
+        </select>
 
-      </select>
+        <select v-model="filters.sort">
+          <option value="price-asc">Precio: Bajo a Alto</option>
+          <option value="price-desc">Precio: Alto a Bajo</option>
+          <option value="name-asc">Nombre: A - Z</option>
+          <option value="name-desc">Nombre: Z - A</option>
+        </select>
 
-      <select v-model="filters.sort">
-        <option value="price-asc">Precio: Bajo a Alto</option>
-        <option value="price-desc">Precio: Alto a Bajo</option>
-        <option value="name-asc">Nombre: A - Z</option>
-        <option value="name-desc">Nombre: Z - A</option>
-      </select>
-
-      <button class="clear-btn" @click="clearFilters">Limpiar filtros</button>
+        <button class="clear-btn" @click="clearFilters">Limpiar filtros</button>
+      </div>
     </div>
 
     <div class="product-list">
@@ -145,7 +145,7 @@ const clearFilters = () => {
 </template>
 
 <style scoped>
-main{
+main {
   margin: 2rem;
 }
 
@@ -162,6 +162,13 @@ main{
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+.search div{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .product-list {
