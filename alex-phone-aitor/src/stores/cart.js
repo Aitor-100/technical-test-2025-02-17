@@ -45,7 +45,7 @@ export const useCartStore = defineStore('cart', {
     async confirmOrder() {
       if (this.cart.length === 0) {
         alert('El carrito está vacío')
-        return
+        return 0
       }
 
       const orderBody = {
@@ -67,9 +67,11 @@ export const useCartStore = defineStore('cart', {
         await axios.put('https://test.alexphone.com/api/v1/order', orderBody)
         alert('Pedido confirmado con éxito')
         this.clearCart()
+        return 1
       } catch (error) {
         console.error('Error al confirmar el pedido:', error)
         alert('Hubo un error al confirmar el pedido')
+        return 0
       }
     },
   },
